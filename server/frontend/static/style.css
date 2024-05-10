@@ -13,6 +13,26 @@ img{
   margin-bottom: 1%;
 }
 
+.card-body{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-evenly;
+}
+.card-title{
+  font-weight: 400;
+  color:rgba(97, 64, 128,0.8);
+  text-align: center;
+}
+
+.card-text{
+    text-align: center;
+}
+
+.card-email{
+    color:rgb(149, 107, 189);
+    font-style: italic;
+    text-align: center;
+}
 .row{
   display: flex;  
   flex: 1;
