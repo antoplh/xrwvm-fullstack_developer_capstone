@@ -27,7 +27,7 @@ SECRET_KEY =\
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-my_site = 'https://antonellapor-8000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai'
+my_site = 'https://antonellapor-8000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai'
 ALLOWED_HOSTS = ['localhost', my_site]
 CSRF_TRUSTED_ORIGINS = [my_site]
 
