@@ -7,12 +7,15 @@ from .models import CarMake, CarModel
 class CarModelInline(admin.StackedInline):
     model = CarModel
 
+
 class CarModelAdmin(admin.ModelAdmin):
    fields = ['car_make', 'name', 'type', 'year']
 
+
 class CarMakeAdmin(admin.ModelAdmin):
-    fields = ['name','description']
+    fields = ['name', 'description']
     inlines = [CarModelInline]
+
 
 # Register models here
 admin.site.register(CarMake, CarMakeAdmin)
