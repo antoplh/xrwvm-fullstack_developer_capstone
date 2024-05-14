@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+#from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
-from django.contrib import messages
-from datetime import datetime
+#from django.contrib import messages
+#from datetime import datetime
 
 import json
 import logging
@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 
+
 def get_cars(request):
     count = CarMake.objects.filter().count()
     print(count)
@@ -27,6 +28,7 @@ def get_cars(request):
     for car_model in car_models:
         cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
     return JsonResponse({"CarModels": cars})
+
 
 # Create a `login_user` view to handle sign in request
 @csrf_exempt
@@ -41,10 +43,12 @@ def login_user(request):
         data["status"] = "Authenticated"
     return JsonResponse(data)
 
+
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):
     logout(request)
     return JsonResponse({"userName": ""})
+
 
 # Create a `registration` view to handle sign up request
 @csrf_exempt
@@ -56,7 +60,7 @@ def registration(request):
     last_name = data['lastName']
     email = data['email']
     username_exist = False
-    email_exist = False
+    #email_exist = False
     try:
         User.objects.get(username=username)
         username_exist = True
@@ -64,13 +68,19 @@ def registration(request):
         logger.debug("{} is a new user".format(username))
 
     if not username_exist:
-        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, password=password, email=email)
+        user = User.objects.create_user(username=username, 
+                                        first_name=first_name,
+                                        last_name=last_name,
+                                        password=password,
+                                        email=email)
         login(request, user)
         return JsonResponse({"userName": username, "status": "Authenticated"})
     else:
         return JsonResponse({"userName": username, "error": "Already Registered"})
 
-# Update the `get_dealerships` view to render a list of dealerships, all by default, or a particular state if a state is passed
+
+# Update the `get_dealerships` view to render a list of dealerships, all by default,
+# or a particular state if a state is passed
 def get_dealerships(request, state="All"):
     if state == "All":
         endpoint = "/fetchDealers"
@@ -78,6 +88,7 @@ def get_dealerships(request, state="All"):
         endpoint = "/fetchDealers/" + state
     dealerships = get_request(endpoint)
     return JsonResponse({"status": 200, "dealers": dealerships})
+
 
 def get_dealer_reviews(request, dealer_id):
     if dealer_id:
@@ -91,6 +102,7 @@ def get_dealer_reviews(request, dealer_id):
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
 
+
 def get_dealer_details(request, dealer_id):
     if dealer_id:
         endpoint = "/fetchDealer/" + str(dealer_id)
@@ -99,6 +111,7 @@ def get_dealer_details(request, dealer_id):
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
 
+
 def add_review(request):
     if not request.user.is_anonymous:
         data = json.loads(request.body)
@@ -106,6 +119,7 @@ def add_review(request):
             response = post_review(data)
             return JsonResponse({"status": 200})
         except Exception as e:
-            return JsonResponse({"status": 401, "message": "Error in posting review: " + str(e)})
+            return JsonResponse({"status": 401,
+                                "message": "Error in posting review: " + str(e)})
     else:
         return JsonResponse({"status": 403, "message": "Unauthorized"})
