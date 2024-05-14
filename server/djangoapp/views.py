@@ -1,9 +1,10 @@
-#from django.shortcuts import render, redirect
+# pylint: disable=line-too-long
+# from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
-#from django.contrib import messages
-#from datetime import datetime
+# from django.contrib import messages
+# from datetime import datetime
 
 import json
 import logging
@@ -26,7 +27,8 @@ def get_cars(request):
     car_models = CarModel.objects.select_related('car_make')
     cars = []
     for car_model in car_models:
-        cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
+        cars.append({"CarModel": car_model.name, 
+                     "CarMake": car_model.car_make.name})
     return JsonResponse({"CarModels": cars})
 
 
@@ -60,7 +62,7 @@ def registration(request):
     last_name = data['lastName']
     email = data['email']
     username_exist = False
-    #email_exist = False
+    # email_exist = False
     try:
         User.objects.get(username=username)
         username_exist = True
@@ -68,7 +70,7 @@ def registration(request):
         logger.debug("{} is a new user".format(username))
 
     if not username_exist:
-        user = User.objects.create_user(username=username, 
+        user = User.objects.create_user(username=username,
                                         first_name=first_name,
                                         last_name=last_name,
                                         password=password,
