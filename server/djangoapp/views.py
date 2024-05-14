@@ -78,11 +78,11 @@ def registration(request):
         login(request, user)
         return JsonResponse({"userName": username, "status": "Authenticated"})
     else:
-        return JsonResponse({"userName": username, "error": "Already Registered"})
+        return JsonResponse({"userName": username,
+                            "error": "Already Registered"})
 
 
-# Update the `get_dealerships` view to render a list of dealerships, all by default,
-# or a particular state if a state is passed
+# Update the `get_dealerships` view to render a list of dealerships, all by default, or a particular state if a state is passed  # noqa: E501
 def get_dealerships(request, state="All"):
     if state == "All":
         endpoint = "/fetchDealers"
@@ -123,6 +123,6 @@ def add_review(request):
             return JsonResponse({"status": 200})
         except Exception as e:
             return JsonResponse({"status": 401,
-                                "message": "Error in posting review: " + str(e)}) # noqa: E501
+                                "message": "Error in posting review: " + str(e)})  # noqa: E501
     else:
         return JsonResponse({"status": 403, "message": "Unauthorized"})
